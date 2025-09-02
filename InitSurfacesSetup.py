@@ -1,0 +1,7 @@
+stickma = pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/cassidy.png").convert_alpha()
+stickman = pygame.transform.scale(stickma,(950,903))
+boolet = pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/boolet.png").convert_alpha()
+Boolet = pygame.transform.scale(boolet, (100,100))
+RPY = random.randint(0, 500)
+RPX = random.randint(100, 700)
+StickMan = pygame.transform.scale(stickman, (150, 150))
