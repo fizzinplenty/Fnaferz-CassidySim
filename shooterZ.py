@@ -1,10 +1,36 @@
 from init import *
+import sys
 import pygame, random, time
 pygame.init()
 screenY = 1080
 screenX = 843
 screen = pygame.display.set_mode((screenX,screenY))
 running = True
+
+#spritez
+class sprite(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        pygame.sprite.Sprite.__init__(self)
+        self.sprites_list = []
+        self.sprites_list.append(pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/purplez/purple.png"))
+        self.sprites_list.append(pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/purplez/purple1.png"))
+        self.sprites_list.append(pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/purplez/purple2.png"))
+        self.sprites_list.append(pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/purplez/purple3.png"))
+        self.current_sprite = 0
+        self.image = self.sprites_list[self.current_sprite]
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [pos_x, pos_y]
+
+    def update(self,speed):
+        self.current_sprite += speed
+        if self.current_sprite >= len(self.sprites_list):
+            self.current_sprite = 0
+        self.image = self.sprites_list[int(self.current_sprite)]
+
+sprites = pygame.sprite.Group()
+porple = sprite(screenX/2,screenY/2)
+sprites.add(porple)
 
 #Images:
 stickma = pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/cassidy.png").convert_alpha()
@@ -18,10 +44,9 @@ font = pygame.font.Font(None,40)
 status = pygame.font.Font(None, 40)
 bucks = pygame.font.Font(None,40)
 timerfont = pygame.font.Font(None,40)
-buttonlabel = pygame.font.Font(None,1000)
+buttonlabel = pygame.font.Font(None,100)
+greetingz = pygame.font.Font
 shot = False
-
-
 
 #button class:
 class button():
@@ -74,6 +99,7 @@ while running:
     office = pygame.transform.scale(offy, (900, 900))
     screen.blit(office, (0, 0))
 
+
     purplegoy = pygame.image.load("/Users/fizzysoda/PycharmProjects/shooter/images/purpleguy.png").convert_alpha()
     purpleguy = pygame.transform.scale(purplegoy, (100, 100))
     screen.blit(purpleguy, (RPX, RPY))
@@ -105,8 +131,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
+
                 changeY = -(velocity)
                 changeX =  0
 
@@ -142,10 +170,6 @@ while running:
     if shop_init == True:
         shop_tab = pygame.draw.rect(screen,"green",(200,200,screenX/2,screenY/2))
 
-
-
-
-
     if shot:
         bullet_changeY = bullet_velocity
         bullet_changeX = 0
@@ -174,9 +198,15 @@ while running:
 
 
     screen.blit(StickMan,(stickmanX,stickmanY))
+    sprites.draw(screen)
+    sprites.update(0.1)
 
 
     pygame.display.flip()
+
+pygame.quit()
+
+
 
 pygame.quit()
 
